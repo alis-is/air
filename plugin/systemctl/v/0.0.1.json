@@ -1,0 +1,6 @@
+{
+    "source": "https://github.com/cryon-io/ami-plugins/releases/download/0.0.3/systemctl-0.0.1.zip",
+    "sha256": "bcc9b926cfe731551b6cb0579a38611efd76e1a9c565ea9b690161bff9a94da8",
+    "version": "0.0.1",
+    "entrypoint": "systemctl.lua"
+}
