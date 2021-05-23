@@ -1,6 +1,0 @@
-{
-    "source": "https://github.com/cryon-io/ami-plugins/releases/download/0.0.5/apt-0.0.3.zip",
-    "sha256": "982e76b674e96836c3fded77a0aafa2e7bdbcb5828ff8def03cea1cc22049320",
-    "version": "0.0.3",
-    "entrypoint": "apt.lua"
-}
