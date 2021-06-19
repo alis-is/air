@@ -1,0 +1,8 @@
+{
+  "id": "etho1",
+  "type": "etho.node",
+  "configuration": {
+    "NODE_TYPE": "sn" // mn, gn
+  },
+  "user": "etho"
+}

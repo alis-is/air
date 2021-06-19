@@ -1,0 +1,14 @@
+{
+    id: "etho1"
+    type: "isolated"
+    configuration: {
+        // OUTBOUND_ADDR: "127.0.0.1"
+    }
+    app: {
+        type: "etho.node",
+        configuration: {
+            NODE_TYPE: "sn" // mn, gn
+        }
+    }
+    user: "etho"
+}

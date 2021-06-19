@@ -1,4 +1,14 @@
 {
-    "xsg.node": "",
-    "etho.node": ""
+    "tent.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/tent/node.hjson",
+        "description": "TENT node or masternode"
+    },
+    "etho.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/etho/node.hjson",
+        "description": "ETHO node, SN, MN or GN"
+    },
+    "etho.node.multi": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/etho/node.multi.hjson",
+        "description": "ETHO node, SN, MN or GN for mutli ETHO setups"
+    }
 }
