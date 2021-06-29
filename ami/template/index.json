@@ -10,5 +10,9 @@
     "etho.node.multi": {
         "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/etho/node.multi.hjson",
         "description": "ETHO node, SN, MN or GN for mutli ETHO setups"
+    },
+	"crw.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/crw/node.hjson",
+        "description": "CRW node or masternode or systemnode"
     }
 }
