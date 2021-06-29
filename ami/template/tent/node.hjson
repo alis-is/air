@@ -7,7 +7,7 @@
       // "rpcbind": "127.0.0.1",
       // "txindex": 1,
     },
-	NODE_PRIVKEY: <masternodeprivkey>
+	// NODE_PRIVKEY: <masternodeprivkey>
   },
   "user": "tent"
 }
