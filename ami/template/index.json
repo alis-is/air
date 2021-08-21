@@ -10,5 +10,9 @@
 	"crw.node": {
         "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/crw/node.hjson",
         "description": "CRW node or masternode or systemnode"
+    },
+    "monk.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/monk/node.hjson",
+        "description": "MONK node or masternode"
     }
 }

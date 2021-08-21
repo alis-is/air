@@ -1,0 +1,13 @@
+{
+  "id": "monk1",
+  "type": "monk.node",
+  "configuration": {
+    "DAEMON_CONFIGURATION": {
+      // "bind": "0.0.0.0",
+      // "rpcbind": "127.0.0.1",
+      // "txindex": 1,
+    },
+	// NODE_PRIVKEY: <masternodeprivkey>
+  },
+  "user": "monk"
+}
