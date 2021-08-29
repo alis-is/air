@@ -1,0 +1,8 @@
+{
+    "id": "egem1",
+    "type": "egem.node",
+    "configuration": {
+//        "OUTBOUND_ADDR": "127.0.0.1"
+    },
+    "user": "egem"
+}

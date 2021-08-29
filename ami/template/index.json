@@ -14,5 +14,9 @@
     "monk.node": {
         "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/monk/node.hjson",
         "description": "MONK node or masternode"
+    },
+    "egem.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/egem/node.hjson",
+        "description": "EGEM Quarrynode"
     }
 }
