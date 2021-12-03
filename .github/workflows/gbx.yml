@@ -1,0 +1,26 @@
+name: Repository Dispatch
+on:
+  repository_dispatch:
+    types: [new-release]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run tests
+        run: |
+          wget -q ${{ github.event.client_payload.url }} -O release.zip
+          SOURCE=${{ github.event.client_payload.url }}
+          VERSION=${{ github.event.client_payload.version }}
+          SHA256=$(sha256sum release.zip)
+          JSON_STRING='{"source":"$SOURCE"","sha256":"$SHA256","version":"$VERSION"}'
+          echo $JSON_STRING > ami/definition/${{ github.event.client_payload.definitionpath }}/v/$VERSION.json
+          echo $JSON_STRING > ami/definition/${{ github.event.client_payload.definitionpath }}/latest.json
+        
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[Pipeline] Updated by gbx pipeline"
+          commit_user_name: Pipeline
+          commit_user_email: pipeline@github.com
+          commit_author: Pipeline <pipeline@github.com>
