@@ -13,7 +13,7 @@ jobs:
           wget -q ${{ github.event.client_payload.url }} -O release.zip
           SOURCE=${{ github.event.client_payload.url }}
           VERSION=${{ github.event.client_payload.version }}
-          SHA256=$(sha256sum release.zip)
+          SHA256=$(sha256sum release.zip | awk '{ print $1 }')
           JSON_STRING='{"source":"'"$SOURCE"'","sha256":"'"$SHA256"'","version":"'"$VERSION"'"}'
           echo $JSON_STRING > ami/definition/${{ github.event.client_payload.definitionpath }}/v/$VERSION.json
           echo $JSON_STRING > ami/definition/${{ github.event.client_payload.definitionpath }}/latest.json
