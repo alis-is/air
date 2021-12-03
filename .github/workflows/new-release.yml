@@ -20,7 +20,7 @@ jobs:
         
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "[Pipeline] Updated by gbx pipeline"
+          commit_message: "[Pipeline] Updated ${{ github.event.client_payload.definitionpath }} by new release pipeline"
           commit_user_name: Pipeline
           commit_user_email: pipeline@github.com
           commit_author: Pipeline <pipeline@github.com>
