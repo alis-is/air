@@ -39,4 +39,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          commit-message: Create PR for fork
+          title: Automated PR for fork
+          body: This is an auto-generated PR from jpaarhuis/air.
           branch: upstream-changes
