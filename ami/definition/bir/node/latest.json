@@ -1,1 +1,1 @@
-{ "source": "$PACKAGE", "sha256": "$SHA256", "version": "$VERSION" }
+{ "source": "https://github.com/apps-alis-is/bir.node/releases/download/0.0.6-test12/bir.node-0.0.6-test12.zip", "sha256": "7328563e1de6f544953c59293be8f6c629e3f76ec35d32d2b23234d0154b6747", "version": "0.0.6-test12" }
