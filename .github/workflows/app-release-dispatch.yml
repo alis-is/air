@@ -37,4 +37,7 @@ jobs:
         uses: EndBug/add-and-commit@v7.5.0
         with: 
           add: '[ "ami/definition/${{ steps.create_definitions.outputs.PACKAGE_DEF_PATH }}/latest.json", "ami/definition/${{ steps.create_definitions.outputs.PACKAGE_DEF_PATH }}/v/${{github.ref_name}}.json" ]'
-          push: ""  # --set-upstream origin ${{ github.event.client_payload.repository }}-new-release"        
+          push: ""  # --set-upstream origin ${{ github.event.client_payload.repository }}-new-release"   
+          message: ${{ github.event.client_payload.repository }} app-release
+          author_name: AirAppReleaseDispatch
+          author_email: air.app.release.dispatch@alis.is
