@@ -26,53 +26,53 @@ jobs:
           REQUIRED_PREFIX: "ami/definition/posmn/"
         with:
           script: |
-             	const requiredPrefixMap = {
-                "posmn": "ami/definition/posmn/"
-              }
-              const prInfo = await github.rest.pulls.get({
-                owner: "alis-is",
-                repo: "air",
-                pull_number: Number(process.env.PR_NUMBER)
-              })
-              if (!prInfo.data.mergeable) {
-                console.error(`PR is not mergable! (Handle possible conflicts)`)
+            const requiredPrefixMap = {
+              "posmn": "ami/definition/posmn/"
+            }
+            const prInfo = await github.rest.pulls.get({
+              owner: "alis-is",
+              repo: "air",
+              pull_number: Number(process.env.PR_NUMBER)
+            })
+            if (!prInfo.data.mergeable) {
+              console.error(`PR is not mergable! (Handle possible conflicts)`)
+              process.exit(0)
+            }
+
+            const sourceRE = new RegExp(/([^:]+?):/gm)
+            const sourceMatch = sourceRE.exec(prInfo.data.head.label)
+            const source = sourceMatch[1];
+            const requiredPrefix =  requiredPrefixMap[source]
+            if (!requiredPrefix) {
+              console.error(`Not valid PR source for automerge!`)
+              process.exit(0)
+            }
+            const tartgetMatch = sourceRE.exec(prInfo.data.base.label)
+            const target = tartgetMatch[1];
+            if (target != "alis-is") {
+              console.error(`Not main public repository. Exiting...`)
+              process.exit(0)
+            }
+
+            const prFiles = await github.rest.pulls.listFiles({
+              owner: "alis-is",
+              repo: "air",
+              pull_number: Number(process.env.PR_NUMBER)
+            })
+
+            for (const file of prFiles.data) {
+              if (!file.filename.startsWith(requiredPrefix)) {
+                console.error(`File (${file.filename}) outside of '${source}' scope (${requiredPrefix})!`)
                 process.exit(0)
               }
-
-              const sourceRE = new RegExp(/([^:]+?):/gm)
-              const sourceMatch = sourceRE.exec(prInfo.data.head.label)
-              const source = sourceMatch[1];
-              const requiredPrefix =  requiredPrefixMap[source]
-              if (!requiredPrefix) {
-                console.error(`Not valid PR source for automerge!`)
-                process.exit(0)
-              }
-              const tartgetMatch = sourceRE.exec(prInfo.data.base.label)
-              const target = tartgetMatch[1];
-              if (target != "alis-is") {
-                console.error(`Not main public repository. Exiting...`)
-                process.exit(0)
-              }
-
-              const prFiles = await github.rest.pulls.listFiles({
-                owner: "alis-is",
-                repo: "air",
-                pull_number: Number(process.env.PR_NUMBER)
-              })
-
-              for (const file of prFiles.data) {
-                if (!file.filename.startsWith(requiredPrefix)) {
-                  console.error(`File (${file.filename}) outside of '${source}' scope (${requiredPrefix})!`)
-                  process.exit(0)
-                }
-              }
-              console.log("All good. Merging...")
+            }
+            console.log("All good. Merging...")
                       
-             github.rest.pulls.merge({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: process.env.PR_NUMBER,
-                commit_title: `PR_APP_RELEASE_${process.env.TITLE}`,
-                commit_message: `app-pr-release`,
-                merge_method: squash
-             })
+            github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: process.env.PR_NUMBER,
+              commit_title: `PR_APP_RELEASE_${process.env.TITLE}`,
+              commit_message: `app-pr-release`,
+              merge_method: squash
+            })
