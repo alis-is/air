@@ -1,0 +1,78 @@
+# This is a basic workflow to help you get started with Actions
+
+name: app-pr-release
+
+# Controls when the workflow will run
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/github-script@v5
+        id: set-result
+        env: 
+          PR_NUMBER: ${{github.event.number}}
+          TITLE: ${{ github.event.pull_request.title }}
+          REQUIRED_PREFIX: "ami/definition/posmn/"
+        with:
+          script: |
+             	const requiredPrefixMap = {
+                "posmn": "ami/definition/posmn/"
+              }
+              const prInfo = await github.rest.pulls.get({
+                owner: "alis-is",
+                repo: "air",
+                pull_number: Number(process.env.PR_NUMBER)
+              })
+              if (!prInfo.data.mergeable) {
+                console.error(`PR is not mergable! (Handle possible conflicts)`)
+                process.exit(0)
+              }
+
+              const sourceRE = new RegExp(/([^:]+?):/gm)
+              const sourceMatch = sourceRE.exec(prInfo.data.head.label)
+              const source = sourceMatch[1];
+              const requiredPrefix =  requiredPrefixMap[source]
+              if (!requiredPrefix) {
+                console.error(`Not valid PR source for automerge!`)
+                process.exit(0)
+              }
+              const tartgetMatch = sourceRE.exec(prInfo.data.base.label)
+              const target = tartgetMatch[1];
+              if (target != "alis-is") {
+                console.error(`Not main public repository. Exiting...`)
+                process.exit(0)
+              }
+
+              const prFiles = await github.rest.pulls.listFiles({
+                owner: "alis-is",
+                repo: "air",
+                pull_number: Number(process.env.PR_NUMBER)
+              })
+
+              for (const file of prFiles.data) {
+                if (!file.filename.startsWith(requiredPrefix)) {
+                  console.error(`File (${file.filename}) outside of '${source}' scope (${requiredPrefix})!`)
+                  process.exit(0)
+                }
+              }
+              console.log("All good. Merging...")
+                      
+             github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: process.env.PR_NUMBER,
+                commit_title: `PR_APP_RELEASE_${process.env.TITLE}`,
+                commit_message: `app-pr-release`,
+                merge_method: squash
+             })
