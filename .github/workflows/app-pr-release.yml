@@ -51,6 +51,7 @@ jobs:
               process.exit(0)
             }
             const tartgetMatch = sourceRE.exec(prInfo.data.base.label)
+            console.log(tartgetMatch)
             const target = tartgetMatch[1];
             if (target != "alis-is") {
               console.error(`Not main public repository. Exiting...`)
