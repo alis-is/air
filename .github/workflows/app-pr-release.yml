@@ -4,9 +4,9 @@ name: app-pr-release
 
 # Controls when the workflow will run
 on:
-  pull_request:
+  pull_request_target:
     branches: [ main ]
-    types: [ opened ]
+    types: [ opened, reopened ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,9 +25,11 @@ jobs:
           TITLE: ${{ github.event.pull_request.title }}
           REQUIRED_PREFIX: "ami/definition/posmn/"
         with:
+          # github-token: ${{ secrets.AIR_AT }}
           script: |
             const requiredPrefixMap = {
-              "posmn": "ami/definition/posmn/"
+              "posmn": "ami/definition/posmn/",
+              "jpaarhuis": "ami/definition/posmn/"
             }
             const prInfo = await github.rest.pulls.get({
               owner: "alis-is",
@@ -41,12 +43,15 @@ jobs:
 
             const sourceRE = new RegExp(/([^:]+?):/gm)
             const sourceMatch = sourceRE.exec(prInfo.data.head.label)
+            
             const source = sourceMatch[1];
             const requiredPrefix =  requiredPrefixMap[source]
             if (!requiredPrefix) {
               console.error(`Not valid PR source for automerge!`)
               process.exit(0)
             }
+            
+            sourceRE.lastIndex = 0; // reset sourceRE
             const tartgetMatch = sourceRE.exec(prInfo.data.base.label)
             const target = tartgetMatch[1];
             if (target != "alis-is") {
@@ -74,5 +79,5 @@ jobs:
               pull_number: process.env.PR_NUMBER,
               commit_title: `PR_APP_RELEASE_${process.env.TITLE}`,
               commit_message: `app-pr-release`,
-              merge_method: squash
+              merge_method: `squash`
             })
