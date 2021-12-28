@@ -42,6 +42,8 @@ jobs:
 
             const sourceRE = new RegExp(/([^:]+?):/gm)
             const sourceMatch = sourceRE.exec(prInfo.data.head.label)
+            console.log(JSON.stringify(prInfo, null, "\t"))
+            console.log(sourceMatch)
             const source = sourceMatch[1];
             const requiredPrefix =  requiredPrefixMap[source]
             if (!requiredPrefix) {
