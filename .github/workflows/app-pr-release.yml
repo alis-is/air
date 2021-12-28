@@ -42,16 +42,16 @@ jobs:
 
             const sourceRE = new RegExp(/([^:]+?):/gm)
             const sourceMatch = sourceRE.exec(prInfo.data.head.label)
-            console.log(JSON.stringify(prInfo, null, "\t"))
-            console.log(sourceMatch)
+            
             const source = sourceMatch[1];
             const requiredPrefix =  requiredPrefixMap[source]
             if (!requiredPrefix) {
               console.error(`Not valid PR source for automerge!`)
               process.exit(0)
             }
+            
+            sourceRE.lastIndex = 0; // reset sourceRE
             const tartgetMatch = sourceRE.exec(prInfo.data.base.label)
-            console.log(tartgetMatch)
             const target = tartgetMatch[1];
             if (target != "alis-is") {
               console.error(`Not main public repository. Exiting...`)
