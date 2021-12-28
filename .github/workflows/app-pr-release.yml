@@ -78,5 +78,5 @@ jobs:
               pull_number: process.env.PR_NUMBER,
               commit_title: `PR_APP_RELEASE_${process.env.TITLE}`,
               commit_message: `app-pr-release`,
-              merge_method: squash
+              merge_method: `squash`
             })
