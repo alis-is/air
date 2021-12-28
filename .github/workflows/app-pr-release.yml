@@ -4,9 +4,9 @@ name: app-pr-release
 
 # Controls when the workflow will run
 on:
-  pull_request:
+  pull_request_target:
     branches: [ main ]
-    types: [ opened ]
+    types: [ opened, reopened ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
