@@ -15,12 +15,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: alis-is/air
 
       # Make changes to pull request here
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          push-to-fork: alis-is/air
           add-paths: |
             ami/definition/posmn/**/*
