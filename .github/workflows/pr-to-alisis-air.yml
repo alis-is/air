@@ -19,7 +19,11 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: alis-is/air
 
-      # Make changes to pull request here
+      - name: Reset the default branch with upstream changes
+        run: |
+          git remote add upstream https://github.com/jpaarhuis/air.git
+          git fetch upstream master:upstream-master
+          git reset --hard upstream-master
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
