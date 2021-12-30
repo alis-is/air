@@ -55,3 +55,5 @@ jobs:
         with:
           token: ${{ secrets.AIR_AT }}
           push-to-fork: ${{ github.repository }}
+          branch: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
+          delete-branch: true
