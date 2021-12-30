@@ -29,7 +29,8 @@ jobs:
           script: |
             const requiredPrefixMap = {
               "posmn": "ami/definition/posmn/",
-              "jpaarhuis": "ami/definition/posmn/"
+              "jpaarhuis": "ami/definition/posmn/",
+              "BakeBuddyBot": "ami/definition/xtz/",
             }
             const prInfo = await github.rest.pulls.get({
               owner: "alis-is",
