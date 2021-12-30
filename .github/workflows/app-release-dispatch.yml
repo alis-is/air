@@ -16,15 +16,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: Merge Upstream
-        uses: exions/merge-upstream@v1
+        if: ${{ github.repository == 'alis-is/air' }}
+        
+      - uses: actions/checkout@v2
         if: ${{ github.repository != 'alis-is/air' }}
         with:
-          upstream: alis-is/air
-          upstream-branch: main
-          branch: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AIR_AT }}
+          repository: alis-is/air
           
       # Runs a single command using the runners shell
       - name: build definitions
@@ -56,3 +54,4 @@ jobs:
         if: ${{ github.repository != 'alis-is/air' }}
         with:
           token: ${{ secrets.AIR_AT }}
+          push-to-fork: ${{ github.repository }}
