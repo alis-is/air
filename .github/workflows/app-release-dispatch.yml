@@ -17,6 +17,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Merge Upstream
+        uses: exions/merge-upstream@v1
+        if: ${{ github.repository != 'alis-is/air' }}
+        with:
+          upstream: alis-is/air
+          upstream-branch: main
+          branch: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
       # Runs a single command using the runners shell
       - name: build definitions
         id: create_definitions
@@ -41,3 +50,9 @@ jobs:
           message: ${{ github.event.client_payload.repository }} app-release
           author_name: AirAppReleaseDispatch
           author_email: air.app.release.dispatch@alis.is
+
+      - name: Create PR to alis-is/air
+        uses: peter-evans/create-pull-request@v3
+        if: ${{ github.repository != 'alis-is/air' }}
+        with:
+          token: ${{ secrets.AIR_AT }}
