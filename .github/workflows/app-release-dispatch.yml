@@ -55,5 +55,7 @@ jobs:
         with:
           token: ${{ secrets.AIR_AT }}
           push-to-fork: ${{ github.repository }}
+          title: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
+          body: Update from nested AIR - ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
           branch: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
           delete-branch: true
