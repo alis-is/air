@@ -20,6 +20,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/github-script@v5
         id: set-result
+        if: ${{ github.repository == 'alis-is/air' }}
         env: 
           PR_NUMBER: ${{github.event.number}}
           TITLE: ${{ github.event.pull_request.title }}
