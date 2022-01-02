@@ -65,6 +65,9 @@ jobs:
       - name: Remove PR branch
         uses: actions/github-script@v5
         if: ${{ github.repository != 'alis-is/air' }}
+        env:
+          PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+          PR_HEAD: ${{ steps.cpr.outputs.pull-request-head-sha }}
         with:
           script: |
             let retries = 5
@@ -73,11 +76,11 @@ jobs:
               const mergeInfo = await github.rest.pulls.checkIfMerged({
                 owner: "alis-is",
                 repo: "air",
-                pull_number: Number(${{ steps.cpr.outputs.pull-request-number }})
+                pull_number: Number(process.env.PR_NUMBER)
               })
               if (mergeInfo.status === 204) {
                 // remove branch
-                await github.git.deleteRef({ owner: ${{ github.repository_owner }}, repo: "air", ref: ${{ steps.cpr.outputs.pull-request-head-sha }}});
+                await github.git.deleteRef({ owner: context.repo.owner, repo: context.repo.repo, ref: process.env.PR_HEAD });
                 break;
               }
               await new Promise(resolve => setTimeout(resolve, 5000));
