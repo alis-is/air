@@ -70,7 +70,7 @@ jobs:
           PR_HEAD: ${{ steps.cpr.outputs.pull-request-head-sha }}
         with:
           script: |
-            let retries = 5
+            let retries = 10
             let remove = false
             while (retries-- > 0) {
               try {
@@ -85,10 +85,10 @@ jobs:
                   break;
                 }
                 console.log("Not merged. Retry in 5s...")
-                await new Promise(resolve => setTimeout(resolve, 5000));
               } catch (err) {
                 console.log(`Error: ${err && err.message}! Retry in 5s...`)
               }
+              await new Promise(resolve => setTimeout(resolve, 5000));
             }
             
             
