@@ -67,7 +67,7 @@ jobs:
         if: ${{ github.repository != 'alis-is/air' }}
         env:
           PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
-          PR_HEAD: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          BRANCH: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
         with:
           script: |
             let retries = 10
@@ -81,7 +81,11 @@ jobs:
                 })
                 if (mergeInfo.status === 204) {
                   // remove branch
-                  await github.rest.git.deleteRef({ owner: context.repo.owner, repo: context.repo.repo, ref: process.env.PR_HEAD });
+                  
+                  await github.rest.git.deleteRef({ 
+                    owner: context.repo.owner, 
+                    repo: context.repo.repo, 
+                    ref: `heads/${process.env.BRANCH}` });
                   break;
                 }
                 console.log("Not merged. Retry in 5s...")
