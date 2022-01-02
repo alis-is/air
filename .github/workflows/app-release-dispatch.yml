@@ -73,17 +73,22 @@ jobs:
             let retries = 5
             let remove = false
             while (retries-- > 0) {
-              const mergeInfo = await github.rest.pulls.checkIfMerged({
-                owner: "alis-is",
-                repo: "air",
-                pull_number: Number(process.env.PR_NUMBER)
-              })
-              if (mergeInfo.status === 204) {
-                // remove branch
-                await github.git.deleteRef({ owner: context.repo.owner, repo: context.repo.repo, ref: process.env.PR_HEAD });
-                break;
+              try {
+                const mergeInfo = await github.rest.pulls.checkIfMerged({
+                  owner: "alis-is",
+                  repo: "air",
+                  pull_number: Number(process.env.PR_NUMBER)
+                })
+                if (mergeInfo.status === 204) {
+                  // remove branch
+                  await github.git.deleteRef({ owner: context.repo.owner, repo: context.repo.repo, ref: process.env.PR_HEAD });
+                  break;
+                }
+                console.log("Not merged. Retry in 5s...")
+                await new Promise(resolve => setTimeout(resolve, 5000));
+              } catch (err) {
+                console.log(`Error: ${err && err.message}! Retry in 5s...`)
               }
-              await new Promise(resolve => setTimeout(resolve, 5000));
             }
             
             
