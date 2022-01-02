@@ -48,8 +48,10 @@ jobs:
           message: ${{ github.event.client_payload.repository }} app-release
           author_name: AirAppReleaseDispatch
           author_email: air.app.release.dispatch@alis.is
+          branch: main
 
       - name: Create PR to alis-is/air
+        id: cpr
         uses: peter-evans/create-pull-request@v3
         if: ${{ github.repository != 'alis-is/air' }}
         with:
@@ -59,3 +61,27 @@ jobs:
           body: Update from nested AIR - ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
           branch: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
           delete-branch: true
+      
+      - name: Remove PR branch
+        uses: actions/github-script@v5
+        if: ${{ github.repository != 'alis-is/air' && secrets.AIR_AUTO_REMOVE_BRANCH == 'true' }}
+        with:
+          script: |
+            let retries = 5
+            let remove = false
+            while (retries-- > 0) {
+              const mergeInfo = await github.rest.pulls.checkIfMerged({
+                owner: "alis-is",
+                repo: "air",
+                pull_number: Number(${{ steps.cpr.outputs.pull-request-number }})
+              })
+              if (mergeInfo.status === 204) {
+                // remove branch
+                await github.git.deleteRef({ owner: ${{ github.repository_owner }}, repo: "air", ref: ${{ steps.cpr.outputs.pull-request-head-sha }}});
+                break;
+              }
+              await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+            
+            
+            
