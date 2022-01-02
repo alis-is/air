@@ -1,0 +1,10 @@
+{
+  "id": "etho1",
+  "type": "etho.node",
+  "configuration": {
+    // sn mn or gn
+    "NODE_TYPE": "sn"
+	"OUTBOUND_ADDR": "<ipv4>"
+  },
+  "user": "etho"
+}

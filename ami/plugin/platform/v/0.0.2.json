@@ -1,0 +1,7 @@
+
+{
+    "source": "https://github.com/cryon-io/ami-plugins/releases/download/0.0.5/platform-0.0.2.zip",
+    "sha256": "8577f1565b6c9bd4a299238931e8757c73c89a7c94693dcdcb4afb38c01d0367",
+    "version": "0.0.2",
+    "entrypoint": "platform.lua"
+}

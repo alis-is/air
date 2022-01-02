@@ -1,0 +1,22 @@
+{
+    "tent.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/tent/node.hjson",
+        "description": "TENT node or masternode"
+    },
+    "etho.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/etho/node.hjson",
+        "description": "ETHO node, SN, MN or GN"
+    },
+	"crw.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/crw/node.hjson",
+        "description": "CRW node or masternode or systemnode"
+    },
+    "monk.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/monk/node.hjson",
+        "description": "MONK node or masternode"
+    },
+    "egem.node": {
+        "source": "https://raw.githubusercontent.com/cryon-io/air/master/ami/template/egem/node.hjson",
+        "description": "EGEM Quarrynode"
+    }
+}

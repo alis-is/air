@@ -1,0 +1,6 @@
+{
+    "source": "https://github.com/cryon-io/ami-plugins/releases/download/0.2.1/user-0.2.0.zip",
+    "sha256": "10d1f0be447c1fa37f8e8c35fe664df84db2f1ba45cb7de52c3d9adc6bb41904",
+    "version": "0.2.0",
+    "entrypoint": "user.lua"
+}

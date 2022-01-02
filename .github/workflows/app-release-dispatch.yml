@@ -1,0 +1,99 @@
+name: app-release-dispatch
+
+# Controls when the workflow will run
+on:
+  repository_dispatch:
+    types: ["app-release"]
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        if: ${{ github.repository == 'alis-is/air' }}
+        
+      - uses: actions/checkout@v2
+        if: ${{ github.repository != 'alis-is/air' }}
+        with:
+          token: ${{ secrets.AIR_AT }}
+          repository: alis-is/air
+          
+      # Runs a single command using the runners shell
+      - name: build definitions
+        id: create_definitions
+        env: 
+          SOURCE: ${{ github.event.client_payload.repository }}
+          PACKAGE: ${{ github.event.client_payload.package }}
+          VERSION: ${{ github.event.client_payload.version }}
+          SHA256: ${{ github.event.client_payload.sha256 }}
+          ID: ${{ github.event.client_payload.id }}
+        run: |
+          # git checkout -b "$SOURCE-new-release"
+          export PACKAGE_DEF_PATH=$(printf $ID | sed "s/\./\//g")
+          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > ami/definition/$PACKAGE_DEF_PATH/latest.json
+          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > ami/definition/$PACKAGE_DEF_PATH/v/$VERSION.json
+          echo "::set-output name=PACKAGE_DEF_PATH::$PACKAGE_DEF_PATH"
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v7.5.0
+        with: 
+          add: '[ "ami/definition/${{ steps.create_definitions.outputs.PACKAGE_DEF_PATH }}/latest.json", "ami/definition/${{ steps.create_definitions.outputs.PACKAGE_DEF_PATH }}/v/${{ github.event.client_payload.version }}.json" ]'
+          push: ${{ github.repository == 'alis-is/air' }}  # --set-upstream origin ${{ github.event.client_payload.repository }}-new-release"   
+          message: ${{ github.event.client_payload.repository }} app-release
+          author_name: AirAppReleaseDispatch
+          author_email: air.app.release.dispatch@alis.is
+          branch: main
+
+      - name: Create PR to alis-is/air
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        if: ${{ github.repository != 'alis-is/air' }}
+        with:
+          token: ${{ secrets.AIR_AT }}
+          push-to-fork: ${{ github.repository }}
+          title: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
+          body: Update from nested AIR - ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
+          branch: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
+          delete-branch: true
+      
+      - name: Remove PR branch
+        uses: actions/github-script@v5
+        if: ${{ github.repository != 'alis-is/air' }}
+        env:
+          PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+          BRANCH: ${{ github.event.client_payload.id }}-${{ github.event.client_payload.version }}
+        with:
+          script: |
+            let retries = 10
+            let remove = false
+            while (retries-- > 0) {
+              try {
+                const mergeInfo = await github.rest.pulls.checkIfMerged({
+                  owner: "alis-is",
+                  repo: "air",
+                  pull_number: Number(process.env.PR_NUMBER)
+                })
+                if (mergeInfo.status === 204) {
+                  // remove branch
+                  
+                  await github.rest.git.deleteRef({ 
+                    owner: context.repo.owner, 
+                    repo: context.repo.repo, 
+                    ref: `heads/${process.env.BRANCH}` });
+                  break;
+                }
+                console.log("Not merged. Retry in 5s...")
+              } catch (err) {
+                console.log(`Error: ${err && err.message}! Retry in 5s...`)
+              }
+              await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+            
+            
+            

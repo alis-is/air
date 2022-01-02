@@ -1,0 +1,14 @@
+{
+  "id": "crw1",
+  "type": "crw.node",
+  "configuration": {
+    "DAEMON_CONFIGURATION": {
+      // "bind": "0.0.0.0",
+      // "rpcbind": "127.0.0.1",
+      // "txindex": 1,
+    },
+	// NODE_PRIVKEY: <masternodeprivkey>
+	// NODE_TYPE: "masternode" // systemnode
+  },
+  "user": "crw1"
+}

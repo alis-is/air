@@ -1,0 +1,7 @@
+
+{
+    "source": "https://github.com/cryon-io/ami-plugins/releases/download/0.2.1/podman-0.0.4.zip",
+    "sha256": "d087efc55d6599c949e33c351ae2a0275a6dee0042d70304dd0fb476f803c65b",
+    "version": "0.0.4",
+    "entrypoint": "podman.lua"
+}
