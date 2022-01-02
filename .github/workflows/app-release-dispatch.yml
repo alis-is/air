@@ -81,7 +81,7 @@ jobs:
                 })
                 if (mergeInfo.status === 204) {
                   // remove branch
-                  await github.git.deleteRef({ owner: context.repo.owner, repo: context.repo.repo, ref: process.env.PR_HEAD });
+                  await github.rest.git.deleteRef({ owner: context.repo.owner, repo: context.repo.repo, ref: process.env.PR_HEAD });
                   break;
                 }
                 console.log("Not merged. Retry in 5s...")
