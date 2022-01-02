@@ -64,7 +64,7 @@ jobs:
       
       - name: Remove PR branch
         uses: actions/github-script@v5
-        if: ${{ github.repository != 'alis-is/air' && secrets.AIR_AUTO_REMOVE_BRANCH == 'true' }}
+        if: ${{ github.repository != 'alis-is/air' }}
         with:
           script: |
             let retries = 5
