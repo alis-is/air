@@ -36,8 +36,9 @@ jobs:
         run: |
           # git checkout -b "$SOURCE-new-release"
           export PACKAGE_DEF_PATH=$(printf $ID | sed "s/\./\//g")
-          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > ami/definition/$PACKAGE_DEF_PATH/latest.json
-          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > ami/definition/$PACKAGE_DEF_PATH/v/$VERSION.json
+          mkdir -p "ami/definition/$PACKAGE_DEF_PATH"
+          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > "ami/definition/$PACKAGE_DEF_PATH/latest.json"
+          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > "ami/definition/$PACKAGE_DEF_PATH/v/$VERSION.json"
           echo "::set-output name=PACKAGE_DEF_PATH::$PACKAGE_DEF_PATH"
 
       - name: Add & Commit
