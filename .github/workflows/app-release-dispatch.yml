@@ -24,6 +24,20 @@ jobs:
           token: ${{ secrets.AIR_AT }}
           repository: alis-is/air
           
+      - name: setup eli
+        run: |
+          TMP_NAME="/tmp/$(head -n 1 -c 32 /dev/urandom | tr -dc 'a-zA-Z0-9'| fold -w 32)"
+          set -- wget -q --show-progress -O "$TMP_NAME" LATEST=$(wget -qO- https://api.github.com/repos/alis-is/eli/releases/latest | grep tag_name | sed 's/  "tag_name": "//g' | sed 's/",//g')
+          PLATFORM=$(uname -m)
+          echo "Downloading eli-unix-$PLATFORM $LATEST..."
+
+          if "$@" "https://github.com/alis-is/eli/releases/download/$LATEST/eli-unix-$PLATFORM" && mv "$TMP_NAME" ./eli && chmod +x ./eli; then
+            echo "eli $LATEST for $PLATFORM successfuly installed."
+          else
+            echo "eli installation failed!" 1>&2
+            exit 1
+          fi
+
       # Runs a single command using the runners shell
       - name: build definitions
         id: create_definitions
@@ -36,9 +50,7 @@ jobs:
         run: |
           # git checkout -b "$SOURCE-new-release"
           export PACKAGE_DEF_PATH=$(printf $ID | sed "s/\./\//g")
-          mkdir -p "ami/definition/$PACKAGE_DEF_PATH/v"
-          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > "ami/definition/$PACKAGE_DEF_PATH/latest.json"
-          printf '{ "source": "%s", "sha256": "%s", "version": "%s" }' "$PACKAGE" "$SHA256" "$VERSION" > "ami/definition/$PACKAGE_DEF_PATH/v/$VERSION.json"
+          ./eli .github/create_definitions.lua
           echo "::set-output name=PACKAGE_DEF_PATH::$PACKAGE_DEF_PATH"
 
       - name: Add & Commit
