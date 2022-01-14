@@ -1,12 +1,12 @@
 local _hjson = require"hjson"
 
-SOURCE = os.getenv("SOURCE")
+PACKAGE = os.getenv("PACKAGE")
 PACKAGE_DEF_PATH = os.getenv("PACKAGE_DEF_PATH")
 VERSION = os.getenv("VERSION")
 SHA256 = os.getenv("SHA256")
 
 local _versionData = {
-	source = SOURCE,
+	source = PACKAGE,
 	sha256 = SHA256,
 	version = VERSION
 }
