@@ -23,7 +23,7 @@ local _latestPath = path.combine(path.combine("ami/definition/", PACKAGE_DEF_PAT
 local _writeLatest = true
 local _ok, _content = fs.safe_read_file(_latestPath)
 if _ok then 
-	local _ok, _lastLatest = _hjson.safe_parse(_content)
+	local _ok, _lastLatest = pcall(_hjson.parse, _content)
 	if _ok then
 		_writeLatest = ver.compare(VERSION, _lastLatest.version) == 1
 	end
