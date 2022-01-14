@@ -19,7 +19,7 @@ end
 
 fs.mkdirp(PACKAGE_DEF_PATH)
 
-local _latestPath = path.combine("ami/definition/", PACKAGE_DEF_PATH, _latest)
+local _latestPath = path.combine(path.combine("ami/definition/", PACKAGE_DEF_PATH), _latest)
 local _writeLatest = true
 local _ok, _content = fs.safe_read_file(_latestPath)
 if _ok then 
