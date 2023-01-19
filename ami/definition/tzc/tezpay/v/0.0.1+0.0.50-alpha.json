@@ -1,5 +1,5 @@
 {
+    "sha256": "7bfbb4ed0d6eb3545e6730d9c2c4ab0a0e0523e3ae9f8b2fbfb3ed9febda5d25",
     "source": "https://github.com/tez-capital/ami-tezpay/releases/download/0.0.1+0.0.50-alpha/tzc.tezpay-0.0.1+0.0.50-alpha.zip",
-    "sha256": "d6061c4e46588464a4ffd9ae1e9727d2d649f5ec01e66deb8e61972f257f6549",
     "version": "0.0.1+0.0.50-alpha"
 }
