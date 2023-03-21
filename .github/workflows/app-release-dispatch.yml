@@ -25,19 +25,7 @@ jobs:
           repository: alis-is/air
           
       - name: setup eli
-        run: |
-          PLATFORM=$(uname -m)
-          TMP_NAME="./eli-linux-$PLATFORM"
-          set -- wget -q --show-progress -O "$TMP_NAME" 
-          LATEST=$(wget -qO- https://api.github.com/repos/alis-is/eli/releases/latest | grep tag_name | sed 's/  "tag_name": "//g' | sed 's/",//g')
-          echo "Downloading eli-linux-$PLATFORM $LATEST..."
-
-          if "$@" "https://github.com/alis-is/eli/releases/download/$LATEST/eli-linux-$PLATFORM" && mv "$TMP_NAME" ./eli && chmod +x ./eli; then
-            echo "eli $LATEST for $PLATFORM successfuly installed."
-          else
-            echo "eli installation failed!" 1>&2
-            exit 1
-          fi
+        uses: alis-is/setup-eli@v1
 
       # Runs a single command using the runners shell
       - name: build definitions
