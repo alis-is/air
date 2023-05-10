@@ -1,5 +1,5 @@
 {
-    "version": "0.0.20+17.0.rc1",
+    "source": "https://gitlab.com/api/v4/projects/32826336/packages/generic/xtz.signer.next/0.0.20+17.0.rc1/xtz.signer.next-0.0.20+17.0.rc1.zip",
     "sha256": "7d0817b85485e89da88e1cc7e6216850ff25ad483133ef704dbe8b278d281017",
-    "source": "https://gitlab.com/api/v4/projects/32826336/packages/generic/xtz.signer.next/0.0.20+17.0.rc1/xtz.signer.next-0.0.20+17.0.rc1.zip"
+    "version": "0.0.20+17.0.rc1"
 }
