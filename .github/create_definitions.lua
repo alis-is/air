@@ -55,9 +55,9 @@ for i = 1, #packages do
 
 	-- if prefixed with plugin: then it's a plugin
 	local _latestDir = path.combine("ami/definition/", _packageDefPath)
-	if string.sub(_package, 1, 7) == "plugin:" then
-		_package = string.sub(_package, 8)
-		_latestDir = path.combine("ami/plugin/", _package)
+	if string.sub(_packageDefPath, 1, 7) == "plugin:" then
+		_packageDefPath = string.sub(_packageDefPath, 8)
+		_latestDir = path.combine("ami/plugin/", _packageDefPath)
 	end
 
 	fs.mkdirp(_latestDir)
