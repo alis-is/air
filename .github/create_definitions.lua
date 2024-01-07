@@ -22,8 +22,9 @@ end
 local packages = string.split(PACKAGE, ",", true)
 local versions = string.split(VERSION, ",", true)
 local sha256s = string.split(SHA256, ",", true)
-if #packages ~= #versions or #packages ~= #sha256s then
-	print("PACKAGE, VERSION and SHA256 must have the same number of elements")
+local packageDefPaths = string.split(PACKAGE_DEF_PATH, ",", true)
+if #packages ~= #versions or #packages ~= #sha256s or #packages ~= #packageDefPaths  then
+	print("PACKAGE, VERSION, SHA256 and PACKAGE_DEF_PATH must have the same number of elements")
 	os.exit(1)
 end
 
@@ -38,6 +39,7 @@ for i = 1, #packages do
 	local _package = packages[i]
 	local _version = versions[i]
 	local _sha256 = sha256s[i]
+	local _packageDefPath = packageDefPaths[i]
 
 	local _versionData = {
 		source = _package,
@@ -51,7 +53,7 @@ for i = 1, #packages do
 		_latest = "latest-" .. _version.prerelease .. ".json"
 	end
 
-	local _latestDir = path.combine("ami/definition/", PACKAGE_DEF_PATH)
+	local _latestDir = path.combine("ami/definition/", _packageDefPath)
 	fs.mkdirp(_latestDir)
 	local _vDir = path.combine(_latestDir, "v")
 	fs.mkdirp(_vDir)
