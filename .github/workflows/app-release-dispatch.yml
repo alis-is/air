@@ -40,7 +40,7 @@ jobs:
           # git checkout -b "$SOURCE-new-release"
           export PACKAGE_DEF_PATH=$(printf $ID | sed "s/\./\//g")
           export UPDATED_DEFINITIONS=$(eli .github/create_definitions.lua)
-          echo "::set-output name=UPDATED_DEFINITIONS::$UPDATED_DEFINITIONS"
+          echo "UPDATED_DEFINITIONS=$UPDATED_DEFINITIONS" >> $GITHUB_OUTPUT
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v7.5.0
