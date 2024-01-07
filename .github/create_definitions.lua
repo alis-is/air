@@ -53,7 +53,13 @@ for i = 1, #packages do
 		_latest = "latest-" .. _version.prerelease .. ".json"
 	end
 
+	-- if prefixed with plugin: then it's a plugin
 	local _latestDir = path.combine("ami/definition/", _packageDefPath)
+	if string.sub(_package, 1, 7) == "plugin:" then
+		_package = string.sub(_package, 8)
+		_latestDir = path.combine("ami/plugins/", _package)
+	end
+
 	fs.mkdirp(_latestDir)
 	local _vDir = path.combine(_latestDir, "v")
 	fs.mkdirp(_vDir)
