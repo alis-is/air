@@ -57,7 +57,7 @@ for i = 1, #packages do
 	local _latestDir = path.combine("ami/definition/", _packageDefPath)
 	if string.sub(_package, 1, 7) == "plugin:" then
 		_package = string.sub(_package, 8)
-		_latestDir = path.combine("ami/plugins/", _package)
+		_latestDir = path.combine("ami/plugin/", _package)
 	end
 
 	fs.mkdirp(_latestDir)
