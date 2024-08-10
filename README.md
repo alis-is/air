@@ -1,3 +1,3 @@
 # air
 
-Definition and plugin repository for ami and alis.
+Definition and plugin repository for ami.
