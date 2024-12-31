@@ -1,7 +1,5 @@
-
 {
-    "source": "https://github.com/alis-is/ami-plugins/releases/download/0.2.1/podman-0.0.4.zip",
-    "sha256": "d087efc55d6599c949e33c351ae2a0275a6dee0042d70304dd0fb476f803c65b",
-    "version": "0.0.4",
-    "entrypoint": "podman.lua"
+    "source": "https://github.com/alis-is/ami-plugins/releases/download/2412310938/podman-0.1.1.zip",
+    "version": "0.1.1",
+    "sha256": "8b0bec2bdcedc965e42b0acce8006eab6677cd07801a2318c80b71ae2869b189"
 }

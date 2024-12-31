@@ -1,4 +1,4 @@
-local _hjson = require "hjson"
+local hjson = require "hjson"
 
 PACKAGE = os.getenv("PACKAGE")
 PACKAGE_DEF_PATH = os.getenv("PACKAGE_DEF_PATH")
@@ -33,56 +33,56 @@ if #packages == 0 then
 	os.exit(1)
 end
 
-local affectedFiles = {}
+local affected_files = {}
 
 for i = 1, #packages do
-	local _package = packages[i]
-	local _version = versions[i]
-	local _sha256 = sha256s[i]
-	local _packageDefPath = packageDefPaths[i]
+	local package = packages[i]
+	local version = versions[i]
+	local sha256 = sha256s[i]
+	local package_def_path = packageDefPaths[i]
 
-	local _versionData = {
-		source = _package,
-		sha256 = _sha256,
-		version = _version
+	local version_data = {
+		source = package,
+		sha256 = sha256,
+		version = version
 	}
 
-	local _version = ver.parse(VERSION)
-	local _latest = "latest.json"
-	if _version.prerelease then
-		_latest = "latest-" .. _version.prerelease .. ".json"
+	local prerelease = ver.parse(version).prerelease
+	local latest = "latest.json"
+	if prerelease then
+		latest = "latest-" .. prerelease .. ".json"
 	end
 
 	-- if prefixed with plugin: then it's a plugin
-	local _latestDir = path.combine("ami/definition/", _packageDefPath)
-	if string.sub(_packageDefPath, 1, 7) == "plugin:" then
-		_packageDefPath = string.sub(_packageDefPath, 8)
-		_latestDir = path.combine("ami/plugin/", _packageDefPath)
+	local latest_directory = path.combine("ami/definition/", package_def_path)
+	if string.sub(package_def_path, 1, 7) == "plugin:" then
+		package_def_path = string.sub(package_def_path, 8)
+		latest_directory = path.combine("ami/plugin/", package_def_path)
 	end
 
-	fs.mkdirp(_latestDir)
-	local _vDir = path.combine(_latestDir, "v")
-	fs.mkdirp(_vDir)
+	fs.mkdirp(latest_directory)
+	local version_dir = path.combine(latest_directory, "v")
+	fs.mkdirp(version_dir)
 
-	local _latestPath = path.combine(_latestDir, _latest)
-	local _writeLatest = true
-	local _ok, _content = fs.safe_read_file(_latestPath)
-	if _ok then
-		local _ok, _lastLatest = pcall(_hjson.parse, _content)
-		if _ok then
-			_writeLatest = ver.compare(VERSION, _lastLatest.version) == 1
+	local latest_path = path.combine(latest_directory, latest)
+	local write_latest = true
+	local ok, content = fs.safe_read_file(latest_path)
+	if ok then
+		local ok, last_latest = pcall(hjson.parse, content)
+		if ok then
+			write_latest = ver.compare(version, last_latest.version) == 1
 		end
 	end
 
-	if _writeLatest then
-		fs.write_file(_latestPath, _hjson.stringify_to_json(_versionData))
-		table.insert(affectedFiles, _latestPath)
+	if write_latest then
+		fs.write_file(latest_path, hjson.stringify_to_json(version_data))
+		table.insert(affected_files, latest_path)
 	end
 
-	local _versionPath = path.combine(_vDir, VERSION .. ".json")
-	fs.write_file(_versionPath, _hjson.stringify_to_json(_versionData))
-	table.insert(affectedFiles, _versionPath)
+	local version_path = path.combine(version_dir, version .. ".json")
+	fs.write_file(version_path, hjson.stringify_to_json(version_data))
+	table.insert(affected_files, version_path)
 end
 
-local quotedFiles = table.map(affectedFiles, function(f) return "\"" .. f .. "\"" end)
-io.write("[" .. string.join(", ", table.unpack(quotedFiles)) .. "]")
+local quoted_files = table.map(affected_files, function(f) return "\"" .. f .. "\"" end)
+io.write("[" .. string.join(", ", table.unpack(quoted_files)) .. "]")

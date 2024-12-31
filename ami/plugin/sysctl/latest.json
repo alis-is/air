@@ -1,6 +1,5 @@
 {
-    "source": "https://github.com/alis-is/ami-plugins/releases/download/0.2.1/sysctl-0.0.1.zip",
-    "sha256": "46e42438545d722c0418b7145a7335db5f5f78f97ecb135fb15211eecfdc1cd7",
-    "version": "0.0.1",
-    "entrypoint": "sysctl.lua"
+    "source": "https://github.com/alis-is/ami-plugins/releases/download/2412310938/sysctl-0.1.1.zip",
+    "sha256": "9ef32562f69b572d8eeb2913302af68752132f91d8468f4c8f2212c717523f9c",
+    "version": "0.1.1"
 }

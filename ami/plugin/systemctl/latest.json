@@ -1,5 +1,5 @@
 {
-    "sha256": "8a99d8497aafd6e58e117e5d0a5ed28c2d984041a284b391d8dbf29ab000bba9",
-    "version": "0.3.0",
-    "source": "https://github.com/alis-is/ami-plugins/releases/download/2408021721/systemctl-0.3.0.zip"
+    "source": "https://github.com/alis-is/ami-plugins/releases/download/2412310938/systemctl-0.4.1.zip",
+    "sha256": "4105f24ec4f72a4599715668e48a1f6e0b61d7cb26436934b96c649d4cefc577",
+    "version": "0.4.1"
 }

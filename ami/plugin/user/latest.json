@@ -1,6 +1,5 @@
 {
-    "source": "https://github.com/alis-is/ami-plugins/releases/download/0.2.2/user-0.3.0.zip",
-    "sha256": "24328b16f5a5d222b838644bddf32d01a819f96b996cc771e18656099ce83eed",
-    "version": "0.3.0",
-    "entrypoint": "user.lua"
+    "source": "https://github.com/alis-is/ami-plugins/releases/download/2412310938/user-0.4.1.zip",
+    "sha256": "cc1e54f3fe28ee3efb376a5f84c6fb43c4f89a3585b6b1a37f7a6f8f700e628a",
+    "version": "0.4.1"
 }

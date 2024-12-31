@@ -43,14 +43,13 @@ jobs:
           echo "UPDATED_DEFINITIONS=$UPDATED_DEFINITIONS" >> $GITHUB_OUTPUT
 
       - name: Add & Commit
-        uses: EndBug/add-and-commit@v7.5.0
+        uses: EndBug/add-and-commit@v9
         with: 
           add: '${{ steps.create_definitions.outputs.UPDATED_DEFINITIONS }}'
           push: ${{ github.repository == 'alis-is/air' }}  # --set-upstream origin ${{ github.event.client_payload.repository }}-new-release"   
           message: ${{ github.event.client_payload.repository }} app-release
           author_name: AirAppReleaseDispatch
           author_email: air.app.release.dispatch@alis.is
-          branch: main
 
       - name: Create PR to alis-is/air
         id: cpr

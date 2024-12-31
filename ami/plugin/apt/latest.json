@@ -1,6 +1,5 @@
 {
-    "source": "https://github.com/alis-is/ami-plugins/releases/download/0.2.1/apt-0.1.1.zip",
-    "sha256": "eaf1da2a882e291f0bc11f4ab5df6163683052e7c90db9b46f7674b249fd2d87",
-    "version": "0.1.1",
-    "entrypoint": "apt.lua"
+    "source": "https://github.com/alis-is/ami-plugins/releases/download/2412310938/apt-0.2.1.zip",
+    "version": "0.2.1",
+    "sha256": "a89edd61dc92bf0b922fc6e8c1df8d1b7e22ebedae27ec2a2555dcb38f30a759"
 }
