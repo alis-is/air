@@ -1,0 +1,5 @@
+{
+    "version": "0.33.1+octez.21.2.parisc_quebec",
+    "sha256": "2663f18c5569c5b6a3b6293c984b9ffbbd7209cef466a415c3c137e8a1d4e399",
+    "source": "https://github.com/tez-capital/xtz.node/releases/download/0.33.1+octez.21.2.parisc_quebec/xtz.node-0.33.1+octez.21.2.parisc_quebec.zip"
+}
