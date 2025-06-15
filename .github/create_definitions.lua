@@ -66,10 +66,10 @@ for i = 1, #packages do
 
 	local latest_path = path.combine(latest_directory, latest)
 	local write_latest = true
-	local ok, content = fs.safe_read_file(latest_path)
-	if ok then
-		local ok, last_latest = pcall(hjson.parse, content)
-		if ok then
+	local content, err = fs.read_file(latest_path)
+	if content then
+		local last_latest, err = hjson.parse(content)
+		if last_latest then
 			write_latest = ver.compare(version, last_latest.version) == 1
 		end
 	end
