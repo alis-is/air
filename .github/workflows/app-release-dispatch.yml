@@ -30,12 +30,13 @@ jobs:
       # Runs a single command using the runners shell
       - name: build definitions
         id: create_definitions
-        env: 
+        env:
           SOURCE: ${{ github.event.client_payload.repository }}
           PACKAGE: ${{ github.event.client_payload.package }}
           VERSION: ${{ github.event.client_payload.version }}
           SHA256: ${{ github.event.client_payload.sha256 }}
           ID: ${{ github.event.client_payload.id }}
+          ALIASES: ${{ github.event.client_payload.aliases }}
         run: |
           # git checkout -b "$SOURCE-new-release"
           export PACKAGE_DEF_PATH=$(printf $ID | sed "s/\./\//g")

@@ -4,6 +4,7 @@ PACKAGE = os.getenv("PACKAGE")
 PACKAGE_DEF_PATH = os.getenv("PACKAGE_DEF_PATH")
 VERSION = os.getenv("VERSION")
 SHA256 = os.getenv("SHA256")
+ALIASES = os.getenv("ALIASES")
 
 if PACKAGE == nil then
 	print("PACKAGE is not set")
@@ -23,6 +24,7 @@ local packages = string.split(PACKAGE, ",", true)
 local versions = string.split(VERSION, ",", true)
 local sha256s = string.split(SHA256, ",", true)
 local packageDefPaths = string.split(PACKAGE_DEF_PATH, ",", true)
+local aliasesList = (ALIASES and ALIASES ~= "") and string.split(ALIASES, ",", true) or {}
 if #packages ~= #versions or #packages ~= #sha256s or #packages ~= #packageDefPaths  then
 	print("PACKAGE, VERSION, SHA256 and PACKAGE_DEF_PATH must have the same number of elements")
 	os.exit(1)
@@ -82,6 +84,17 @@ for i = 1, #packages do
 	local version_path = path.combine(version_dir, version .. ".json")
 	fs.write_file(version_path, hjson.stringify_to_json(version_data))
 	table.insert(affected_files, version_path)
+
+	local package_aliases = (aliasesList[i] and aliasesList[i] ~= "") and string.split(aliasesList[i], "|", true) or {}
+	for _, alias in ipairs(package_aliases) do
+		local alias_parent = string.match(alias, "^(.+)/[^/]+$")
+		if alias_parent then
+			fs.mkdirp(path.combine(latest_directory, alias_parent))
+		end
+		local alias_path = path.combine(latest_directory, alias .. ".json")
+		fs.write_file(alias_path, hjson.stringify_to_json(version_data))
+		table.insert(affected_files, alias_path)
+	end
 end
 
 local quoted_files = table.map(affected_files, function(f) return "\"" .. f .. "\"" end)
